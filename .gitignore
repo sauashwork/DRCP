@@ -1,7 +1,8 @@
 # Ignore environment files
 .env
 .env.*
-
+**/.env
+**/.env.*
 # Node modules (if using Node.js)
 node_modules/
 
