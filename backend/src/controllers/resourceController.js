@@ -2,6 +2,7 @@ const supabase = require('../services/supabaseService');
 const { io } = require('../app'); // Import io
 const { logAction } = require('../utils/logger');
 const { geocodeLocation } = require('../services/geocodingService');
+const wkx = require('wkx');
 
 // Create a new resource
 exports.createResource = async (req, res, io) => {
@@ -61,12 +62,23 @@ exports.getResources = async (req, res) => {
   // Convert WKB/WKT to lat/lon if location exists
   const resources = (data || []).map(r => {
     let latitude = null, longitude = null;
-    if (r.location && typeof r.location === 'string' && r.location.startsWith('POINT')) {
-      // Parse WKT: "POINT(lon lat)"
-      const match = r.location.match(/POINT\(([-\d.]+) ([-\d.]+)\)/);
-      if (match) {
-        longitude = parseFloat(match[1]);
-        latitude = parseFloat(match[2]);
+    if (r.location) {
+      if (typeof r.location === 'string' && r.location.startsWith('POINT')) {
+        // WKT format: "POINT(lon lat)"
+        const match = r.location.match(/POINT\(([-\d.]+) ([-\d.]+)\)/);
+        if (match) {
+          longitude = parseFloat(match[1]);
+          latitude = parseFloat(match[2]);
+        }
+      } else if (typeof r.location === 'string' && /^[0-9A-Fa-f]+$/.test(r.location)) {
+        // WKB hex format
+        try {
+          const point = wkx.Geometry.parse(Buffer.from(r.location, 'hex'));
+          longitude = point.x;
+          latitude = point.y;
+        } catch (e) {
+          // ignore parse error
+        }
       }
     }
     return { ...r, latitude, longitude };
