@@ -57,7 +57,22 @@ exports.getResources = async (req, res) => {
   if (disaster_id) query = query.eq('disaster_id', disaster_id);
   const { data, error } = await query;
   if (error) return res.status(400).json({ error: error.message });
-  res.json(data);
+
+  // Convert WKB/WKT to lat/lon if location exists
+  const resources = (data || []).map(r => {
+    let latitude = null, longitude = null;
+    if (r.location && typeof r.location === 'string' && r.location.startsWith('POINT')) {
+      // Parse WKT: "POINT(lon lat)"
+      const match = r.location.match(/POINT\(([-\d.]+) ([-\d.]+)\)/);
+      if (match) {
+        longitude = parseFloat(match[1]);
+        latitude = parseFloat(match[2]);
+      }
+    }
+    return { ...r, latitude, longitude };
+  });
+
+  res.json(resources);
 };
 
 // Update a resource

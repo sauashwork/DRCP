@@ -687,7 +687,7 @@ function App() {
                   <li key={r.id}>
                     <b>{r.name}</b> ({r.location_name}) - {r.type}
                     <br />
-                    lat/lon: {r.location}
+                    lat/lon: {r.latitude ?? 'N/A'}, {r.longitude ?? 'N/A'}
                     {user?.role === 'admin' && (
                       <>
                         <button onClick={() => handleEditResource(r)}>Edit</button>
