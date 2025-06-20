@@ -16,7 +16,13 @@ const app = express();
 app.set('trust proxy', 1); // Move this BEFORE rateLimiter
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, {
+  cors: {
+    origin: 'https://drcp-one.vercel.app', // your Vercel frontend URL
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
 
 // Only require these AFTER io is defined!
 const resourceRoutes = require('./routes/resourceRoutes')(io);
