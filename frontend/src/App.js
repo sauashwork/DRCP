@@ -3,8 +3,13 @@ import './App.css';
 import logo from './logo.svg'; // Place your logo in src/
 import io from 'socket.io-client';
 
-const API = 'http://localhost:5000';
-const socket = io(API);
+// const API = 'http://localhost:5000';
+// const socket = io(API);
+
+// added to use backend deployed url 
+const API = process.env.REACT_APP_BACKEND_URL;
+const socket = io(API, { transports: ['websocket'] });
+
 
 function App() {
   // Auth state
