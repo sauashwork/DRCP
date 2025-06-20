@@ -8,7 +8,11 @@ import io from 'socket.io-client';
 
 // added to use backend deployed url 
 const API = process.env.REACT_APP_BACKEND_URL;
-const socket = io(API, { transports: ['websocket'] });
+const socket = io(API, {
+  transports: ['polling', 'websocket'],
+  upgrade: true,
+  withCredentials: true
+});
 
 
 function App() {
