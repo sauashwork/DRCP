@@ -21,7 +21,10 @@ const resourceRoutes = require('./routes/resourceRoutes')(io);
 const socialMediaRoutes = require('./routes/socialMediaRoutes')(io);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://drcp-one.vercel.app', // your frontend URL
+  credentials: true
+}));
 app.use(express.json());
 app.use(rateLimiter);
 
