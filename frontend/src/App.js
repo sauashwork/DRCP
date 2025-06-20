@@ -610,6 +610,13 @@ function App() {
               <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
               <input placeholder="Role (admin/citizen/volunteer)" value={role} onChange={e => setRole(e.target.value)} />
               <button type="submit">Register</button>
+              <div style={{ fontSize: '0.9em', color: '#555', marginTop: 8 }}>
+                <ul style={{ margin: 0, paddingLeft: 18 }}>
+                  <li>Username must be at least 3 characters.</li>
+                  <li>Password must be at least 6 characters.</li>
+                  <li>Role must be one of the following: admin, citizen, volunteer.</li>
+                </ul>
+              </div>
             </form>
             <div className="msg">{authMsg}</div>
             <button onClick={() => setShowRegister(false)}>Close</button>
@@ -679,7 +686,7 @@ function App() {
                 {resources.map(r => (
                   <li key={r.id}>
                     <b>{r.name}</b> ({r.location_name}) - {r.type}
-                    <br/>
+                    <br />
                     lat/lon: {r.location}
                     {user?.role === 'admin' && (
                       <>
@@ -785,58 +792,58 @@ function App() {
           )}
         </div>
 
-         {/* Reports Section */}
-      <div className="card report-card">
-        <h2>Submit a Report</h2>
-        <form onSubmit={editingReport ? handleUpdateReport : handleCreateReport}>
-          <input
-            placeholder="Disaster ID"
-            value={reportDisasterId}
-            onChange={e => setReportDisasterId(e.target.value)}
-          />
-          <input
-            placeholder="Content"
-            value={reportContent}
-            onChange={e => setReportContent(e.target.value)}
-          />
-          <input
-            placeholder="Image URL"
-            value={reportImageUrl}
-            onChange={e => setReportImageUrl(e.target.value)}
-          />
-          <button type="submit">{editingReport ? 'Update Report' : 'Submit Report'}</button>
-          {editingReport && (
-            <button type="button" onClick={() => setEditingReport(null)}>
-              Cancel
-            </button>
-          )}
-        </form>
-        <div className="msg">{reportMsg}</div>
+        {/* Reports Section */}
+        <div className="card report-card">
+          <h2>Submit a Report</h2>
+          <form onSubmit={editingReport ? handleUpdateReport : handleCreateReport}>
+            <input
+              placeholder="Disaster ID"
+              value={reportDisasterId}
+              onChange={e => setReportDisasterId(e.target.value)}
+            />
+            <input
+              placeholder="Content"
+              value={reportContent}
+              onChange={e => setReportContent(e.target.value)}
+            />
+            <input
+              placeholder="Image URL"
+              value={reportImageUrl}
+              onChange={e => setReportImageUrl(e.target.value)}
+            />
+            <button type="submit">{editingReport ? 'Update Report' : 'Submit Report'}</button>
+            {editingReport && (
+              <button type="button" onClick={() => setEditingReport(null)}>
+                Cancel
+              </button>
+            )}
+          </form>
+          <div className="msg">{reportMsg}</div>
 
-        <h3>Reports</h3>
-        <button onClick={() => handleFetchReports(reportDisasterId)}>
-          Load Reports for Disaster
-        </button>
-        <ul>
-          {reports.map(r => (
-            <li key={r.id}>
-              <b>{r.users?.username || 'Anonymous'}</b>: {r.content}
-              {r.image_url && (
-                <img
-                  src={r.image_url}
-                  alt="report"
-                  style={{ maxWidth: "100%", maxHeight: "250px", display: "block", margin: "10px 0" }}
-                />
-              )}
-              <div style={{ whiteSpace: "pre-line" }}>
-                <b>Status:</b> {r.verification_status}
-              </div>
-              {/* ...admin controls... */}
-            </li>
-          ))}
-        </ul>
-      </div>
-      
+          <h3>Reports</h3>
+          <button onClick={() => handleFetchReports(reportDisasterId)}>
+            Load Reports for Disaster
+          </button>
+          <ul>
+            {reports.map(r => (
+              <li key={r.id}>
+                <b>{r.users?.username || 'Anonymous'}</b>: {r.content}
+                {r.image_url && (
+                  <img
+                    src={r.image_url}
+                    alt="report"
+                    style={{ maxWidth: "100%", maxHeight: "250px", display: "block", margin: "10px 0" }}
+                  />
+                )}
+                <div style={{ whiteSpace: "pre-line" }}>
+                  <b>Status:</b> {r.verification_status}
+                </div>
+                {/* ...admin controls... */}
+              </li>
+            ))}
+          </ul>
+        </div>
+
       </div>
 
       <footer className="footer">
