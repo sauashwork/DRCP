@@ -22,11 +22,15 @@ const socialMediaRoutes = require('./routes/socialMediaRoutes')(io);
 
 // Middleware
 app.use(cors({
-  origin: 'https://drcp-one.vercel.app', // your frontend URL
-  credentials: true
+  origin: 'https://drcp-one.vercel.app', // your Vercel frontend
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 app.use(express.json());
 app.use(rateLimiter);
+
+// Optional: handle preflight for all routes
+app.options('*', cors());
 
 // Health check route
 app.get('/health', (req, res) => {
