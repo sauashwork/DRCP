@@ -13,6 +13,8 @@ const authRoutes = require('./routes/authRoutes');
 const rateLimiter = require('./middleware/rateLimiter');
 
 const app = express();
+app.set('trust proxy', 1); // Move this BEFORE rateLimiter
+
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
 
@@ -22,7 +24,7 @@ const socialMediaRoutes = require('./routes/socialMediaRoutes')(io);
 
 // Middleware
 app.use(cors({
-  origin: 'https://drcp-one.vercel.app', // your Vercel frontend
+  origin: 'https://drcp-one.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
