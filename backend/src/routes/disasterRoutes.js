@@ -75,25 +75,25 @@ router.patch('/:id/auto-location', async (req, res) => {
   res.json(data);
 });
 
-// GET /disasters/:id/official-updates
-router.get('/:id/official-updates', async (req, res) => {
-  try {
-    // Return mock data for testing
-    res.json([
-      {
-        title: "FEMA: Flood Relief Operations Ongoing",
-        link: "https://www.fema.gov/news-release/flood-relief",
-        date: "2025-06-19"
-      },
-      {
-        title: "Red Cross: Emergency Shelters Open in Manhattan",
-        link: "https://www.redcross.org/nyc-shelters",
-        date: "2025-06-19"
-      }
-    ]);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch official updates" });
-  }
-});
+// // GET /disasters/:id/official-updates
+// router.get('/:id/official-updates', async (req, res) => {
+//   try {
+//     // Return mock data for testing
+//     res.json([
+//       {
+//         title: "FEMA: Flood Relief Operations Ongoing",
+//         link: "https://www.fema.gov/news-release/flood-relief",
+//         date: "2025-06-19"
+//       },
+//       {
+//         title: "Red Cross: Emergency Shelters Open in Manhattan",
+//         link: "https://www.redcross.org/nyc-shelters",
+//         date: "2025-06-19"
+//       }
+//     ]);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to fetch official updates" });
+//   }
+// });
 
 module.exports = router;
